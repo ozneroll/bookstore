@@ -12,13 +12,15 @@ import org.springframework.context.annotation.Bean;
 
 import com.haagahelia.Bookstore.domain.Book;
 import com.haagahelia.Bookstore.domain.BookStoreRepository;
+import com.haagahelia.Bookstore.domain.Category;
+import com.haagahelia.Bookstore.domain.CategoryRepository;
 
 
 @SpringBootApplication
 public class BookstoreApplication {
 	
-	@Autowired
-	private BookStoreRepository repository;
+//	@Autowired
+//	private BookStoreRepository repository;
 	
 	private static final Logger log = LoggerFactory.getLogger(BookstoreApplication.class);
 	
@@ -27,21 +29,22 @@ public class BookstoreApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner demo(BookStoreRepository repository) {
+	public CommandLineRunner demo(BookStoreRepository brepository, CategoryRepository crepository) {
 		return (args) -> {
 			
-			repository.save(new Book("Anna Karenina", "Leo Tolstoy", 1960, "817525766-0", 25.6));
-			repository.save(new Book("Madame Bovary", "Gustave Flaubert", 1970, "817525766-0", 25.6));
-			repository.save(new Book("Moby-dick", "George Eliot", 1960, "817525766-0", 25.6));
+			crepository.save(new Category("Mystery"));
+			crepository.save(new Category("Drama"));
+			crepository.save(new Category("Poetry"));
+
+			brepository.save(new Book("Anna Karenina", "Leo Tolstoy", 1960, "60000258-0", 25.6, crepository.findByName("Mystery").get(0)));
+			brepository.save(new Book("Madame Bovary", "Gustave Flaubert", 1970, "60000300-0", 25.6, crepository.findByName("Drama").get(0)));
+			brepository.save(new Book("Moby-dick", "George Eliot", 1960, "60000800-0", 25.6, crepository.findByName("Drama").get(0)));
 			
-			for (Book book : repository.findAll()) {
+			for (Book book : brepository.findAll()) {
 				log.info(book.toString());
 			}
 
 		};
 	}
 	
-	public void findByTitle(String title) {
-		List<Book> books = repository.findByTitle(title);
-	}
 }
