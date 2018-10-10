@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Book {
 	
@@ -27,6 +29,7 @@ public class Book {
 	private double price;
 	
 	@ManyToOne
+	@JsonIgnore
     @JoinColumn(name = "category")
     private Category category;
 
