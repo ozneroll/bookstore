@@ -14,6 +14,9 @@ import com.haagahelia.Bookstore.domain.Book;
 import com.haagahelia.Bookstore.domain.BookStoreRepository;
 import com.haagahelia.Bookstore.domain.Category;
 import com.haagahelia.Bookstore.domain.CategoryRepository;
+import com.haagahelia.Bookstore.domain.User;
+import com.haagahelia.Bookstore.domain.UserRepository;
+
 
 
 @SpringBootApplication
@@ -29,8 +32,14 @@ public class BookstoreApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner demo(BookStoreRepository brepository, CategoryRepository crepository) {
+	public CommandLineRunner demo(BookStoreRepository brepository, CategoryRepository crepository, UserRepository urepository) {
 		return (args) -> {
+			
+			User user1 = new User("user", "$2a$06$3jYRJrg0ghaaypjZ/.g4SethoeA51ph3UD4kZi9oPkeMTpjKU5uo6", "killian@gmail.com", "USER");
+			User user2 = new User("admin", "$2a$10$0MMwY.IQqpsVc1jC8u7IJ.2rT8b0Cd3b3sfIBGV2zfgnPGtT4r0.C", "lorenzo@gmail.com", "ADMIN");
+			urepository.save(user1);
+			urepository.save(user2);
+			
 			
 			crepository.save(new Category("Mystery"));
 			crepository.save(new Category("Drama"));
