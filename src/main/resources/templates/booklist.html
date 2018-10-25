@@ -5,6 +5,9 @@
 	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
 </head>
 <body>
+	<div class="col-md-4">
+		<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+	</div>
 	<table class="table table-striped">
 	<tr>
 	<th>Author</th>
@@ -13,7 +16,7 @@
 	<th>Year</th>
 	<th>Category</th>
 	<th></th>
-	<th></th>
+	<th sec:authorize="hasRole('ADMIN')"></th>
 	</tr>
 	<tr th:each = "book : ${books}">
 	<td th:text="${book.author}"></td>
@@ -22,9 +25,12 @@
 	<td th:text="${book.year}"></td>
 	<td th:text="${book.category}"></td>
 	<td><a th:href="@{/edit/{id}(id=${book.id})}">Edit</a></td>
-	<td><a class="btn btn-danger" th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
+	<td sec:authorize="hasRole('ADMIN')"><a class="btn btn-danger" th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
 	</tr>
 	</table>
 	<a href="/addbook" class="btn btn-success">Add book</a>
+	<form th:action="@{/logout}" method="post">
+	<input type="submit" value="Sign Out"/>
+	</form>
 </body>
 </html>
